@@ -1,29 +1,37 @@
+import os
+import uuid
 from os.path import exists
 from tempfile import TemporaryFile
 
-DEFAULT_PATH = "~/.local/HackCurl/"
-
 
 class FileBuffer:
-    def __init__(self, filePath: str, create_temp_opy: bool = True):
-        if not exists(filePath):
-            filePath = DEFAULT_PATH + filePath
-            if not exists(filePath):
-                raise Exception("File doens't exist")
+    DEFAULT_PATH = f"{os.environ['HOME']}/.local/share/HackCurl/"
 
-        with open(filePath, "w+t") as file:
-            self.file = file
+    def __init__(self, fileName: str | None):
+        if fileName is None:
+            fileName = uuid.uuid4().hex[0:7]
 
-        if create_temp_opy:
-            self.tempfile = TemporaryFile("w+t")
+        self.filePath = os.path.join(self.DEFAULT_PATH, fileName)
 
-    def append(self, content: str):
-        if self.tempfile:
-            self.tempfile.write(content)
-        else:
-            self.file.write(content)
+        # It only hold the last content saved in file, the only contact with file is now and in the save method
+        # Ever operation of edit (besides save) is make in tempfile
+        self.content_file = ""
+        if exists(self.filePath):
+            with open(self.filePath, "r") as file:
+                self.content_file = file.read()
 
-    def update(self):
-        if self.tempfile:
-            content = self.tempfile.read()
-            self.file.write(content)
+        self.tempfile = TemporaryFile("w+t")
+
+    def write(self, content: str):
+        self.tempfile.write(content)
+
+    def read(self) -> str:
+        self.tempfile.seek(0, 0)
+        content = self.tempfile.read()
+        return content
+
+    def save(self):
+        content = self.read()
+        with open(self.filePath, "w") as file:
+            file.write(content)
+            self.content_file = content
