@@ -9,14 +9,14 @@ class RequestData:
         self.file = FileBuffer(fileName)
         self.datas = datas.copy()
 
-    def _get_json_str(self):
+    def _datas_to_json(self):
         return json.dumps(self.datas)
 
     def _update_datas(self, new: dict):
         for k in new.keys():
             self.datas[k] = new[k]
 
-        self.file.write(self._get_json_str())
+        self.file.overwrite(self._datas_to_json())
 
     def set_headers(self, news_headers: dict[str, str]):
         self._update_datas({"headers": news_headers})
