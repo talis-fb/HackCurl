@@ -1,9 +1,28 @@
+from HackCurl.core.events import EventManeger
+
+
 class Actions:
     # TODO: Aqui (ou na classe de ActionsManager) serao importados as classes de interface regras de negocios. É aqui que serao chamados
     #   os eventos e chamadas solicitadas pelo usuario. NOTA: Aqui nao deverá ter regras de negocios ou implementação hard-code
     #   aqui é o caminho entre o input do usuario (o disparo de uma acao) e as funções das outras classes. Sendo assim, essas funções
     #   apenas devem chamar APIs com abstrações de outras classes
+
+    events = EventManeger()
+
+    def exec(self, name: str, optional_data=None):
+        action = getattr(Actions, name)
+        action(optional_data)
+
     def OPEN_BODY_FIELD(self):
+        pass
+
+    def ADD(self):
+        pass
+
+    def INSERT(self):
+        pass
+
+    def EDIT(self):
         pass
 
     def OPEN_BODY_FIELD_WITH_TEXT_EDITOR(self):
@@ -37,7 +56,7 @@ class Actions:
         pass
 
     def SUBMIT(self):
-        pass
+        self.events.notify("SUBMIT")
 
     def SELECT_METHOD(self):
         pass
@@ -45,3 +64,10 @@ class Actions:
 
 class ActionManagar:
     ACTIONS = Actions()
+
+    def aa(self):
+        cf = self.ACTIONS.GO_TO_DOWN_PANEL()
+        cc = self.ACTIONS.__getattribute__("SUBMIT")
+        print(cc)
+        print(cf)
+        pass

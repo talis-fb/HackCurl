@@ -7,7 +7,7 @@ class EventListerner(ABC):
         pass
 
 
-class EventManagar:
+class EventManeger:
     _last_event: str | None = None
 
     _listeners: dict[str, list[EventListerner]] = {
@@ -34,11 +34,11 @@ class EventManagar:
         pass
 
     def notify(self, event: str, data=None) -> None:
-        list_observers = self._listeners.get(event)
+        list_listeners = self._listeners.get(event)
 
-        if not list_observers:
+        if not list_listeners:
             return
 
         self._last_event = event
-        for observer in list_observers:
+        for observer in list_listeners:
             observer.update(data)
