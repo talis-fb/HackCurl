@@ -1,13 +1,11 @@
+from HackCurl.utils.singleton import SingletonClass
 from HackCurl.core.config import Config
-from HackCurl.core.actions import FileBuffer
-
-ACTIONS = ActionManagar.ACTIONS
 
 
-class Keymap:
-    _c = Config()
+class Keymap(SingletonClass):
+    _maps = Config().getMapping()
 
     def run(self, key: str):
-        action = self._c.getMapping()[key]
+        action = self._maps[key]
         action()
         pass

@@ -1,7 +1,8 @@
 from HackCurl.core.events import EventManeger
+from HackCurl.utils.singleton import SingletonClass
 
 
-class Actions:
+class Actions(SingletonClass):
     # TODO: Aqui (ou na classe de ActionsManager) serao importados as classes de interface regras de negocios. É aqui que serao chamados
     #   os eventos e chamadas solicitadas pelo usuario. NOTA: Aqui nao deverá ter regras de negocios ou implementação hard-code
     #   aqui é o caminho entre o input do usuario (o disparo de uma acao) e as funções das outras classes. Sendo assim, essas funções
@@ -62,12 +63,12 @@ class Actions:
         pass
 
 
-class ActionManagar:
-    ACTIONS = Actions()
-
-    def aa(self):
-        cf = self.ACTIONS.GO_TO_DOWN_PANEL()
-        cc = self.ACTIONS.__getattribute__("SUBMIT")
-        print(cc)
-        print(cf)
-        pass
+#
+#
+# class ActionManagar:
+#     ACTIONS = Actions()
+#     def aa(self):
+#         cc = self.ACTIONS.__getattribute__("SUBMIT")
+#         print(cc)
+#         print(cc)
+#         pass

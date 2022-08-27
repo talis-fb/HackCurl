@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+from HackCurl.utils.singleton import SingletonClass
 
 
 class EventListerner(ABC):
@@ -7,19 +8,27 @@ class EventListerner(ABC):
         pass
 
 
-class EventManeger:
+class EventManeger(SingletonClass):
+    # Essa classe serve apenas como mensageiro. É utilizado pela classe de Actions
+    # para saber quando eventos foram acionados e chamar as classes e chamar os eventos
+    # de cada ação executada pelo usuário
     _last_event: str | None = None
 
     _listeners: dict[str, list[EventListerner]] = {
+        "SAVE": [],
         "SUBMIT": [],
+        # --
+        "URL_EDIT": [],
         "BODY_EDIT": [],
         "METHOD_EDIT": [],
         "HEADERS_EDIT": [],
         "AUTHENTICATION_EDIT": [],
+        # --
         "RESPONSE": [],
         "RESPONSE_STATUSCODE_202": [],
         "RESPONSE_STATUSCODE_404": [],
         "REQUEST_CANCELED": [],
+        # --
         "ERROR": [],
     }
 
